@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/xterm.css" />
+    <script src="js/xterm.js"></script>
+    <script src="db3_wasm.js"></script>
+    <script src="wasm.interface.js"></script>
+    <script src="shell.js"></script>
+    <title>xterm.js Terminal
+    </title>
+</head>
+<body>
+  <div id="loadingMessage">Loading...</div>
+
+  <div id="terminal">
+  </div>
+
+  <script type="application/javascript">
+   var mod;
+   document.getElementById('terminal').setAttribute('hidden', true);
+
+   Module().then((esmod)=>{
+     mod = esmod;
+
+     setTimeout(() => {
+       console.log('Module Loaded!');
+       document.getElementById('terminal').removeAttribute('hidden');
+       document.getElementById('loadingMessage').style.display = 'none';
+     }, 0);
+   });
+  </script>
+</body>
+</html>
