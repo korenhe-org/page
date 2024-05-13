@@ -1,21 +1,46 @@
+var mod;
+
 document.addEventListener('DOMContentLoaded', function () {
   var initialCols = Math.floor(window.innerWidth / 10);
+  var initialRows = Math.floor(window.innerHeight / 20);
+
   var term = new Terminal({
     cursorBlink: "block",
-    cols: initialCols,
   });
   var curr_line = "";
   var entries = [];
   var historyIndex = 0;
-  term.open(document.getElementById("terminal"));
 
-  // Handle window resize to dynamically adjust the terminal width
-  window.addEventListener('resize', function () {
-    var newCols = Math.floor(window.innerWidth / 10); // Adjust the divisor as needed
-    var newRows = term.rows; // Keep the current number of rows
-    term.resize(newCols, newRows);
+  var fitAddon = new FitAddon.FitAddon();
+
+  // Load FitAddon to terminal
+  term.loadAddon(fitAddon);
+  term.open(document.getElementById("terminal"));
+  fitAddon.fit();
+
+  window.onresize = function () {
+    fitAddon.fit();
+  };
+
+  // Initially hide the terminal
+  document.getElementById('terminal').setAttribute('hidden', true);
+
+  Module().then((esmod)=>{
+      mod = esmod;
+
+      setTimeout(() => {
+          console.log('Module Loaded!');
+
+          // Make the terminal visible
+          document.getElementById('terminal').removeAttribute('hidden');
+          document.getElementById('loadingMessage').style.display = 'none';
+
+          // Now that the terminal is visible, call fit() on fitAddon
+          fitAddon.fit();
+      }, 0);
   });
 
+  term.writeln("Welcome to DB3 terminal");
   term.help = function () {
     term.writeln("support commands: [\\cls, \\test, \\help]");
   };
@@ -95,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
         term.write("db3 shell $ ");
         term.write(curr_line);
       }
-    } else if (e.domEvent.ctrlKey) {
+    } else if (e.domEvent.ctrlKey|| e.domEvent.metaKey) {
       if (e.domEvent.keyCode === 0x43){
         // Handle Ctrl+C
         term.write('\r\n'); // Start a new line

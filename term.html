@@ -5,31 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/xterm.css" />
     <script src="js/xterm.js"></script>
+    <script src="js/addon-fit.js"></script>
     <script src="db3_wasm.js"></script>
     <script src="wasm.interface.js"></script>
     <script src="shell.js"></script>
-    <title>xterm.js Terminal
-    </title>
+    <title>DB3 Terminal</title>
+    <style>
+
+        body, html {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: stretch;
+          justify-content: stretch;
+        }
+
+        #container {
+          display: flex;
+          flex-direction: row;
+          height: 100vh;
+          width: 100%;
+          background-color: #282c34;
+          overflow: hidden;
+        }
+
+        #banner {
+          width: 20px; /* banner width */
+          color: white;
+          writing-mode: vertical-rl;  /* for vertical text*/
+          text-align: center;
+        }
+
+        #terminal {
+          flex-grow: 1; /* terminal taking up remaining width */
+        }
+
+        .xterm .xterm-viewport {
+          /* see : https://github.com/xtermjs/xterm.js/issues/3564#issuecomment-1004417440 */
+          width: initial !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-  <div id="loadingMessage">Loading...</div>
+    <div id="loadingMessage">Loading...</div>
 
-  <div id="terminal">
-  </div>
-
-  <script type="application/javascript">
-   var mod;
-   document.getElementById('terminal').setAttribute('hidden', true);
-
-   Module().then((esmod)=>{
-     mod = esmod;
-
-     setTimeout(() => {
-       console.log('Module Loaded!');
-       document.getElementById('terminal').removeAttribute('hidden');
-       document.getElementById('loadingMessage').style.display = 'none';
-     }, 0);
-   });
-  </script>
+    <div id="container">
+      <div id="banner">DB3 Terminal</div>
+      <div id="terminal"></div>
+    </div>
 </body>
 </html>
