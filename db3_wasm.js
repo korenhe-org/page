@@ -4736,7 +4736,6 @@ var wasmImports = {
  /** @export */ fd_sync: _fd_sync,
  /** @export */ fd_write: _fd_write,
  /** @export */ getentropy: _getentropy,
- /** @export */ strftime: _strftime,
  /** @export */ strftime_l: _strftime_l
 };
 
