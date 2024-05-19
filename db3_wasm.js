@@ -14,7 +14,7 @@ Module["ready"] = new Promise((resolve, reject) => {
  readyPromiseReject = reject;
 });
 
-[ "_mytest", "_querytest", "_db3_connect", "_db3_disconnect", "_malloc", "_free", "getExceptionMessage", "$incrementExceptionRefcount", "$decrementExceptionRefcount", "_memory", "___indirect_function_table", "_main", "onRuntimeInitialized" ].forEach(prop => {
+[ "_mytest", "_querytest", "_buildinfo", "_db3_connect", "_db3_disconnect", "_malloc", "_free", "getExceptionMessage", "$incrementExceptionRefcount", "$decrementExceptionRefcount", "_memory", "___indirect_function_table", "_main", "onRuntimeInitialized" ].forEach(prop => {
  if (!Object.getOwnPropertyDescriptor(Module["ready"], prop)) {
   Object.defineProperty(Module["ready"], prop, {
    get: () => abort("You are getting " + prop + " on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js"),
@@ -4736,6 +4736,7 @@ var wasmImports = {
  /** @export */ fd_sync: _fd_sync,
  /** @export */ fd_write: _fd_write,
  /** @export */ getentropy: _getentropy,
+ /** @export */ strftime: _strftime,
  /** @export */ strftime_l: _strftime_l
 };
 
@@ -4748,6 +4749,8 @@ var _main = Module["_main"] = createExportWrapper("main");
 var _mytest = Module["_mytest"] = createExportWrapper("mytest");
 
 var _querytest = Module["_querytest"] = createExportWrapper("querytest");
+
+var _buildinfo = Module["_buildinfo"] = createExportWrapper("buildinfo");
 
 var _db3_connect = Module["_db3_connect"] = createExportWrapper("db3_connect");
 

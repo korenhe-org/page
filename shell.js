@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var term = new Terminal({
     cursorBlink: "block",
   });
+
   var curr_line = "";
   var entries = [];
   var historyIndex = 0;
@@ -37,12 +38,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // Now that the terminal is visible, call fit() on fitAddon
           fitAddon.fit();
+
+          term.writeln("Welcome to DB3 terminal");
+          var version = callBuildInfo();
+          term.writeln(version);
+          term.write("db3 shell $ ");
+
       }, 0);
   });
 
-  term.writeln("Welcome to DB3 terminal");
+
   term.help = function () {
-    term.writeln("support commands: [\\cls, \\test, \\help]");
+    term.writeln("support commands: [\\cls, \\test, \\version, \\help]");
   };
   term.prompt = function () {
     if (curr_line) {
@@ -54,6 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
         else if (curr_line.startsWith("\\test")) {
           argument = curr_line.substring(5).trim(); // Extract the substring following "test"
           result = callMyTest(argument);
+          term.writeln(result);
+        }
+        else if (curr_line === "\\version") {
+          result = callBuildInfo();
           term.writeln(result);
         }
         else if (curr_line === "\\help") {
